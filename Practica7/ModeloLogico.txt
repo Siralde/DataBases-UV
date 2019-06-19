@@ -1,0 +1,103 @@
+Diseño Logico
+
+Sala(codigo: number, nombre_sala: varchar(20), capacidad: number)
+clave primaria: codigo
+
+-- PARTE IZQUIERDA MULTIUSOS
+
+Multiusos(id_multiusos: number, megafonia: boolean, red: boolean, codigo: number)
+clave primaria: {id_multiusos}
+clave ajena: {codigo} hace referencia a sala
+
+Reservaciones(id_reserva: number, fecha_hora_ini: date, fecha_hora_fin: date, evento: varchar(20), id_multiusos: number, id_empleado: number)
+clave primaria: {id_reserva}
+clave ajena: {id_multiusos} hace refencia Multiusos
+valor no nulo: {id_multiusos}
+clave ajena: {id_empleado} hace referencia a Empleado
+valor no nulo: {id_empleado}
+
+Empleado(id_empleado: number, nombre: varchar(20), NIF: number, puesto:number, categoria: varchar(20))
+clave primaria: {id_empleado}
+
+-- FIN DE LA PRIMERA COLUMNA --
+
+
+
+-- INICIO SEGUNDA COLUMNA
+
+SalaConciertos(id_s_conciertos: number, codigo: number)
+clave primaria: {id_s_conciertos}
+clave ajena: {codigo} hace referencia a Sala
+
+
+
+Zona(id_zona: number, capacidad: number, id_s_conciertos: number, id_tipozona: number)
+clave primaria: {id_zona, id_s_conciertos} 
+clave ajena: {id_s_conciertos} hace referencia a SalaConciertos
+valor no nulo: {id_s_conciertos}
+clave ajena: {id_tipozona} hace referencia a Tipo_Zona
+valor no nulo: {id_tipozona}
+
+
+
+Tipo_Zona(id_tipozona: number, descripcion: varchar(20))
+clave primaria: {id_tipozona}
+
+-- FIN SEGUNDA COLUMNA
+
+
+
+
+-- INICIO DE LA TERCERA COLUMNA
+
+Evento(id_evento: number, fecha_hora_ini: date, fecha_hora_fin: date, id_concierto: number)
+clave primaria: {id_evento}
+clave ajena: {id_concierto} hace referencia a Conciertos
+valor no nulo: {id_concierto}
+
+
+
+Localidades(id_localidades: number, vendidas: number, capacidad: number, precio: number, id_evento: number ,id_zona: number)
+clave primaria: {id_localidades}
+clave ajena: {id_evento} hace refenceia a Evento
+valor no nulo: {id_evento}
+clave ajena: {id_zona} hace referencia a Zona
+valor no nulo: {id_zona}
+
+
+
+
+Entradas(id_entrada: number, fila: varchar(10), asiento: varchar(20), precio_final: number, id_localidades: number)
+clave primaria: {id_entrada} 
+clave ajena: {id_localidades} hace referencia a Localidades
+valor no nulo: {id_localidades}
+
+-- FIN DE LA TERCERA COLUMNA --
+
+
+-- INICIO DE LA CUARTA COLUMNA --
+
+Conciertos(id_concierto: number, titulo: varchar(20), fecha_ini: date, fecha_fin: date, id_orquesta: number, id_director: number, id_programa: number, num_obras: number, duracion: number)
+clave primaria: {id_concierto}
+clave ajena: {id_orquesta} hace referencia a Orquesta
+valor no nulo: {id_orquesta}
+clave ajena: {id_director} hace referencia a Director
+valor no nulo: {id_director}
+unico: id_programa
+
+
+
+Orquesta(id_orquesta: number, nombre: varchar(20), pais: varchar(20))
+clave primaria: {id_orquesta}
+
+
+
+Director(id_director: number, nombre: varchar(20), nacionalidad)
+clave primaria: {id_director}
+
+
+Obras(id_obra: number, titulo: varchar(20), autor: varchar(20), fecha: date, duracion: number, id_programa: number)
+clave primaria: {id_obra}
+clave ajena: {id_programa} hace referencia a Conciertos
+
+-- Fin Cuarta columna--
